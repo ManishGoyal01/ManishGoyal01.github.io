@@ -1,0 +1,681 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script> -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.js"></script>
+
+  <script src="https://use.fontawesome.com/11d1d3aa13.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-sanitize.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-animate.js"></script>
+
+  <script src="select.js"></script>
+  <link rel="stylesheet" href="select.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.js"></script>
+  <link rel="stylesheet" href="testing.css">
+
+  <!-- Bootstrap -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+    crossorigin="anonymous"></script>
+  <script src="https://rawgit.com/rzajac/angularjs-slider/master/dist/rzslider.js"></script>
+
+  <link rel='stylesheet' href='https://rawgit.com/rzajac/angularjs-slider/master/dist/rzslider.css'>
+  <!-- <script src="https://cdn.rawgit.com/angular-ui/ui-select/v0.11.2/dist/select.min.js"></script> -->
+  <link rel="stylesheet" href="https://cdn.rawgit.com/angular-ui/ui-select/v0.11.2/dist/select.min.css">
+
+  <!-- Latest compiled and minified CSS -->
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js" ></script>;
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js"></script>
+ <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" integrity="sha512-/zs32ZEJh+/EO2N1b0PEdoA10JkdC3zJ8L5FTiQu82LR9S/rOQNfQN7U59U9BC12swNeRAz3HSzIL2vpp4fv3w==" crossorigin="anonymous" /> -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.8.5/css/selectize.default.css">
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.7.0/lodash.min.js"></script>
+
+  <script src="testing.js"></script>
+  <script src="testing.js"></script>
+
+
+</head>
+
+<body ng-app="Testing" ng-controller="global">
+
+  <div class="header">
+    <span class="left"><i class="fa fa-users" aria-hidden="true"></i></span>
+    User Management System
+    <span class="addUser" ng-click="openmodal()"
+      style="float: right; padding-right: 35px;margin-bottom: 10px;cursor: pointer;">
+      <i class="fa fa-user-plus" aria-hidden="true"></i> Add User</i></span>
+  </div>
+
+
+
+  <div class="container card shadow p-3 mb-5 bg-white rounded border border-info">
+    <div class="sub-heading">User Data List </div>
+    <br>
+    <input ng-model="searchText" type="text" class="form-control" ng-keyup="filter()" style="margin-bottom: 1%;"
+      placeholder="Search">
+
+    View <select ng-model="viewby" ng-init="viewby='5'" ng-change="setItemsPerPage(viewby)">
+      
+      <option value="5" selected>5</option>
+      <option value="10">10</option>
+      <option value="15">15</option>
+      <option value="20">20</option>
+      <option value="30">30</option>
+      <option value="40">40</option>
+      <option value="50">50</option>
+    </select> records at a time.
+    <br> <br>
+
+    <table class="table table-bordered " id="tableHeader">
+      <thead class="thead-light" class="homehead">
+        <tr class="homefoot">
+          <th scope="col" class="th-sm sorting_desc">Name&nbsp;&nbsp;<span ng-click="toggler=!toggler"><i
+                ng-class="!toggler ? 'fa fa-sort-alpha-asc' : 'fa fa-sort-alpha-desc' " onclick="sortTable(0)"
+                class="fa fa-sort-alpha-asc" aria-hidden="true"></i></span></th>
+          <th scope="col" >Email&nbsp;&nbsp;<span ng-click="togglers=!togglers"><i onclick="sortTable1(1)"
+                ng-class="!togglers ? 'fa fa-sort-alpha-asc' : 'fa fa-sort-alpha-desc' " aria-hidden="true"></i></span>
+          </th>
+          <th scope="col">Phone&nbsp;&nbsp;<span><i onclick="sortTable(2)" aria-hidden="true"></i></span></th>
+          <th scope="col">Gender&nbsp;&nbsp;
+          <th scope="col">Age&nbsp;&nbsp;<span ng-click="togglerss=!togglerss"><i onclick="sortTable2(4)"
+                ng-class="!togglerss ? 'fa fa-sort-numeric-asc' : 'fa fa-sort-numeric-desc' "
+                aria-hidden="true"></i></span></th>
+          <th>Edit/Delete</th>
+        </tr>
+
+      </thead>
+      <tbody id="myTable" class="home">
+        <tr class="homefoot"
+          ng-repeat="result in (users | filter: searchText) .slice(((currentPage-1)*itemsPerPage), ((currentPage)*itemsPerPage))"
+          ng-class="{largeWidth: result.delete == 1, smallWidth: result.delete != 1}">
+          <td ng-click="Modal(result)"> {{result.Name}} </td>
+          <td ng-click="Modal(result)"> {{result.Email}} </td>
+          <td ng-click="Modal(result)"> {{result.Phone}} </td>
+          <td ng-click="Modal(result)"><i ng-class="result.gender == 'male' ? 'fa fa-male' : 'fa fa-female' "
+              aria-hidden="true"></i> </td>
+          <td ng-click="Modal(result)">{{result.age}}</td>
+          <td><i ng-class="{'fa fa-pencil-square-o': result.delete != 1,blank: result.delete == 1}"
+              ng-click="edit(result)" aria-hidden="true"></i>&nbsp;&nbsp;<i
+              ng-class="{'fa fa-trash-o': result.delete != 1,blank: result.delete == 1}" ng-click="deleteModal(result)"
+              aria-hidden="true"></i></td>
+
+        </tr>
+      </tbody>
+    </table>
+
+    <span>
+      <ul class="right" uib-pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"
+        items-per-page="itemsPerPage"></ul>
+    </span>
+
+  </div>
+<div class="graph" style="margin-bottom: 30%; position: relative; height:20vh; width:50vw">
+  <canvas id="myChart"></canvas>
+</div>
+
+  <div class="footer">
+
+    No of Active users: {{count}}
+
+    <img src="pb.svg" height="60px">
+  </div>
+
+
+
+
+
+
+  <div class="modal fade" id="addUSerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">New User Detail</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: white;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form novalidate>
+
+            <div class="form-group row">
+              <div class="col-md-6 mb-3">
+
+                <label for="Name">Name (required)</label>
+                <input type="text" class="form-control" id="Name" ng-model="newUser.Name" placeholder="First name"
+                  required aria-required="true" />
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="validationCustom">Email</label>
+                <input type="text" class="form-control" id="Email" ng-model="newUser.Email" name="email"
+                  placeholder="Email">
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-md-6 mb-3">
+                <label for="validationCustom03">Phone</label>
+                <input type="text" class="form-control" id="Phone" ng-model="newUser.Phone" maxlength="10" size="10"
+                  value="{{UpdateUser.Phone}}" placeholder="Phone" required>
+              </div>
+              <div class="col-md-6 mb-3 ">
+                <label for="validationCustom05">DOB</label>
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" uib-datepicker-popup="MM/dd/yyyy" ng-model="newUser.date"
+                    is-open="popup.opened" datepicker-options="datepickerOptions" ng-required="true" close-text="Close"
+                    alt-input-formats="altInputFormats" />
+                  <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="open()">
+                      <i class="glyphicon glyphicon-calendar"></i>
+                    </button>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-md-12 mb-3">
+                <label for="validationCustom03">Address</label>
+                <input type="text" class="form-control" id="Address" ng-model="newUser.address" placeholder="Address"
+                  required>
+              </div>
+            </div>
+
+            <div class="form-group row">
+
+
+              <div class="col-sm-4 control-div">Languages :</div>
+              <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                <ui-select multiple ng-model="newUser.languages" class="display-text-displaymodal form-control"
+                  ng-disabled="disabled">
+                  <ui-select-match class="ui-select-match">{{$item}}
+                  </ui-select-match>
+                  <ui-select-choices class="ui-select-choices" repeat="lang in availablelanguages">
+                    {{lang}}
+                  </ui-select-choices>
+                </ui-select>
+              </div>
+
+
+            </div>
+            <div class="form-group row">
+              <div class="col-md-3">
+                Gender:
+              </div>
+              <div class="col-md-3 mb-3">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" ng-model="newUser.gender" id="inlineCheckbox1"
+                    value="male">
+                  <label class="form-check-label" for="inlineCheckbox1">Male</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" id="inlineCheckbox2" ng-model="newUser.gender"
+                    value="female">
+                  <label class="form-check-label" for="inlineCheckbox2">Female</label>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        <div class="education">Educational Details</div>
+        <br>
+        <div class="education-1">
+          <table class="table">
+            <tr>
+              <th>Degree</th>
+              <th>Institute</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Percentage</th>
+
+            </tr>
+            <tbody ng-repeat="m in newUser.Education">
+              <tr>
+                <td><input type="text" class="form-control" ng-model="m.Degree" /></td>
+                <td><input type="text" class="form-control" ng-model="m.Institute" /></td>
+                <td>
+                  <div class="input-group mb-3">
+                    <input type="text" class="form-control" uib-datepicker-popup="MM/dd/yyyy" ng-model="m.startDate"
+                      is-open="popup3.opened" datepicker-options="datepickerOptions" ng-required="true"
+                      close-text="Close" alt-input-formats="altInputFormats" />
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-default" ng-click="open3()">
+                        <i class="glyphicon glyphicon-calendar"></i>
+                      </button>
+                    </span>
+                  </div>
+                </td>
+                <td>
+                  <div class="input-group mb-3">
+                    <input type="text" class="form-control" uib-datepicker-popup="MM/dd/yyyy" ng-model="m.endDate"
+                      is-open="popup4.opened" datepicker-options="datepickerOptions" ng-required="true"
+                      close-text="Close" alt-input-formats="altInputFormats" />
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-default" ng-click="open4()">
+                        <i class="glyphicon glyphicon-calendar"></i>
+                      </button>
+                    </span>
+                  </div>
+                </td>
+                <td><input type="text" class="form-control" ng-model="m.Percentage" /></td>
+                <td><input type="button" ng-click="Remove($index)" value="Remove" /></td>
+              </tr>
+            </tbody>
+
+
+            <tfoot>
+              <tr>
+                <td><input type="text" class="form-control" ng-model="Degree" /></td>
+                <td><input type="text" class="form-control" ng-model="Institute" /></td>
+                <td>
+                  <div class="input-group mb-3">
+                    <input type="text" class="form-control" uib-datepicker-popup="MM/dd/yyyy" ng-model="startDate"
+                      is-open="popup1.opened" datepicker-options="datepickerOptions" ng-required="true"
+                      close-text="Close" alt-input-formats="altInputFormats" />
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-default" ng-click="open1()">
+                        <i class="glyphicon glyphicon-calendar"></i>
+                      </button>
+                    </span>
+                  </div>
+
+                </td>
+                <td>
+                  <div class="input-group mb-3">
+                    <input type="text" class="form-control" uib-datepicker-popup="MM/dd/yyyy" ng-model="endDate"
+                      is-open="popup2.opened" datepicker-options="datepickerOptions" ng-required="true"
+                      close-text="Close" alt-input-formats="altInputFormats" />
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-default" ng-click="open2()">
+                        <i class="glyphicon glyphicon-calendar"></i>
+                      </button>
+                    </span>
+                  </div>
+                </td>
+                <td><input type="number" class="form-control" ng-model="Percentage" /></td>
+                <td><input type="button" ng-click="Add()" value="Add" /></td>
+              </tr>
+            </tfoot>
+          </table>
+          <br>
+
+          <div class="education">Skills</div>
+          <br>
+          
+            
+              <!-- <uib-tabset type="pills" >
+                <uib-tab heading="Developing" ><rzslider rz-slider-model="newUser.developing.value" rz-slider-options="newUser.developing.options"
+                  style="width: 50%; margin-left: 20%;"></rzslider>
+               </uib-tab>
+                <uib-tab heading="Desgining" classes="btn-sm" > <rzslider rz-slider-model="newUser.desgining.value" rz-slider-options="newUser.desgining.options"
+                  style="width: 50%;margin-left: 20%;"></rzslider>
+                               </uib-tab>
+               <uib-tab heading="Testing" classes="btn-sm" ><rzslider rz-slider-model="newUser.testing.value" rz-slider-options="newUser.testing.options"
+                style="width: 50%;margin-left: 20%;"></rzslider>
+             </uib-tab>
+              </uib-tabset> -->
+              <!-- <uib-tabset active="activeJustified" justified="true" >
+                <uib-tab index="0" heading="Developing"><br><rzslider rz-slider-model="newUser.developing.value" rz-slider-options="newUser.developing.options"
+                  style="width: 50%; margin-left: 20%;"></rzslider></uib-tab>
+                <uib-tab index="1" heading="Desgining"><br><rzslider rz-slider-model="newUser.developing.value" rz-slider-options="newUser.developing.options"
+                  style="width: 50%; margin-left: 20%;"></rzslider></uib-tab>
+                <uib-tab index="2" heading="Testing"><br><rzslider rz-slider-model="newUser.developing.value" rz-slider-options="newUser.developing.options"
+                  style="width: 50%; margin-left: 20%;"></rzslider></uib-tab>
+              </uib-tabset> -->
+            <!-- <uib-accordion close-others="oneAtATime">
+            <div uib-accordion-group class="panel-default col-md-4" heading="Developing">
+              <rzslider rz-slider-model="newUser.developing.value" rz-slider-options="newUser.developing.options"
+              ></rzslider>
+           </div>
+           <div uib-accordion-group class="panel-default col-md-4" heading="Developing">
+
+            <rzslider rz-slider-model="newUser.developing.value" rz-slider-options="newUser.developing.options"
+            ></rzslider>
+         </div>
+         <div uib-accordion-group class="panel-default col-md-4" heading="Developing">
+          <rzslider rz-slider-model="newUser.developing.value" rz-slider-options="newUser.developing.options"
+          ></rzslider>
+       </div>
+          </uib-accordion>
+        </div> -->
+        <div class="row" style="margin-left: 20px;">
+        <button class="button col-md-4" ng-click="accordianfunction(1)">Developing</button>
+        <button class="button col-md-3" ng-click="accordianfunction(2)">Desgining</button>
+        <button class="button col-md-4" ng-click="accordianfunction(3)">Testing</button>
+      </div>
+      <div>
+        <br>
+        
+        <div ng-show="developingtoggle">
+          <rzslider rz-slider-model="newUser.developing.value" rz-slider-options="newUser.developing.options"
+                  style="width: 50%; margin-left: 20%;"></rzslider>
+        </div>
+        <div ng-show="desginingtoggle">
+          <rzslider rz-slider-model="newUser.desgining.value" rz-slider-options="newUser.desgining.options"
+                  style="width: 50%;margin-left: 20%;"></rzslider>
+        </div>
+        <div ng-show="testingtoggle">
+          <rzslider rz-slider-model="newUser.testing.value" rz-slider-options="newUser.testing.options"
+                  style="width: 50%;margin-left: 20%;">
+        </div>
+
+            <!-- Nav tabs -->
+            <!-- <ul class="nav nav-tabs" role="tablist">
+              <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Developing</a></li>
+              <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Desgining</a></li>
+              <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Testing</a></li>
+
+            </ul>
+          
+             Tab panes 
+            <div class="tab-content">
+              <div role="tabpanel" class="tab-pane active" id="home">
+                <br>
+                <rzslider rz-slider-model="newUser.developing.value" rz-slider-options="newUser.developing.options"
+                  style="width: 50%; margin-left: 20%;"></rzslider>
+               </div>
+              <div role="tabpanel" class="tab-pane" id="profile">
+                <br>
+                <rzslider rz-slider-model="newUser.desgining.value" rz-slider-options="newUser.desgining.options"
+                  style="width: 50%;margin-left: 20%;"></rzslider>
+                </div>
+              <div role="tabpanel" class="tab-pane" id="messages">
+                <br> 
+                <rzslider rz-slider-model="newUser.testing.value" rz-slider-options="newUser.testing.options"
+                  style="width: 50%;margin-left: 20%;"></rzslider>
+    </div>
+            </div> -->
+          
+          </div>
+          
+
+        </div>
+        <br>
+        <div style="margin-bottom: 2%;border-top: 1px solid black;">
+          <br>
+          <button class="btn btn-primary" type="submit" style="margin-left: 40%;" ng-click="save(newUser)">{{modalButtonText}}</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">User Details {{modelDeleteText}}</h5>
+          <button type="button" class="close" data-dismiss="modal" style="color: white;" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+
+        <div class="modal-body">
+          <div class="mymodalhead" style="padding-right: 43%;"> 
+
+            <div 
+            ng-class="(modalData.gender == 'male') ?  genderImage = 'images/male.png': genderImage = 'images/female.png' " ">
+
+            <img width="100px" height="100px" ng-src="{{genderImage}}" >
+            <span>
+           </span>
+          </div>
+        </div>
+          <br>
+          <br>
+          <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" style="margin-top: 60px;border-top: 2px solid black;padding-top: 10px;">
+            <!-- Indicators -->
+            
+
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner" role="listbox">
+              <div class="item active">
+                <div class="educationtoggle">Personal Details</div>
+                <br>
+                <div class="row">
+                  <div class="col-md-2">
+                   
+                  </div>
+                  <div class="col-md-5">
+                    <ul style="list-style: none;">
+                      <li><label style="font-weight: bold;">Name</label> : {{modalData.Name}}</li>
+                     
+                      <li><label style="font-weight: bold;">Email</label> : {{modalData.Email}}</li>
+                      <li><label style="font-weight: bold;">Age</label> : {{modalData.age}}</li>
+                    </ul>
+                  </div>
+
+                  <div class="col-md-5">
+                    <ul style="list-style: none;">
+                      <li><label style="font-weight: bold;">Phone</label> : {{modalData.Phone}}</li>
+                      <li><label style="font-weight: bold;">Address</label> : {{modalData.address}}</li>
+                      <li><label style="font-weight: bold;">Languages</label> : {{modalData.languages}}</li>
+
+                    </ul>
+                  </div>
+
+                </div>
+                <!-- <div class="carousel-caption">
+                  ...
+                </div> -->
+              </div>
+              <div class="item">
+                <div class="educationtoggle">Skills</div>
+                <br>
+
+                <form style="padding-left: 15%;">
+
+                  <div class="row">
+                    <div class="col-md-4 mb-3">
+                      <label for="validationCustom03">Developing</label><br>
+                      {{modalData.developing.value}}/10
+
+                    </div>
+                    <div class="col-md-4 mb-3">
+                      <label for="validationCustom03">Desgining</label><br>
+                      {{modalData.desgining.value}}/10
+
+                    </div>
+                    <div class="col-md-4 mb-3">
+                      <label for="validationCustom03">Testing</label><br>
+                      {{modalData.testing.value}}/10
+
+                    </div>
+
+                  </div>
+                </form>
+
+
+              </div>
+              <div class="item">
+                <div class="educationtoggle">Educational Details</div>
+                <br>
+
+                <table cellpadding="0" cellspacing="0" >
+
+                  <tr>
+                    <th>Degree</th>
+                    <th>Institute</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Percentage</th>
+
+                  </tr>
+
+
+                  <tbody ng-repeat="result in modalData.Education">
+                    <tr>
+                      <td><input type="text" class="form-control" style="width: 75%;" value="{{result.Degree}}"
+                          disabled>
+                      </td>
+                      <td><input type="text" class="form-control" style="width: 75%;" value="{{result.Institute}}"
+                          disabled>
+                      </td>
+                      <td>
+                        <input type="text" class="form-control" style="width: 75%;" uib-datepicker-popup="MM/dd/yyyy"
+                          ng-model="result.startDate" is-open="popup.opened" datepicker-options="datepickerOptions"
+                          ng-required="true" close-text="Close" alt-input-formats="altInputFormats" / disabled>
+
+
+
+                      </td>
+                      <td>
+                        <input type="text" class="form-control" style="width: 75%;" uib-datepicker-popup="MM/dd/yyyy"
+                          ng-model="result.endDate" is-open="popup.opened" datepicker-options="datepickerOptions"
+                          ng-required="true" close-text="Close" alt-input-formats="altInputFormats" / disabled>
+
+
+                      </td>
+                      <td><input type="text" class="form-control" style="width: 75%;" value="{{result.Percentage}}"
+                          disabled></td>
+                    </tr>
+
+                  </tbody>
+                </table>
+
+              </div>
+
+              
+            </div>
+
+            <!-- Controls -->
+            <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+              <span class="glyphicon glyphicon-chevron-left" aria-hidden="true" style="color: black;"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+              <span class="glyphicon glyphicon-chevron-right" aria-hidden="true" style="color: black;"></span>
+              <span class="sr-only">Next</span>
+            </a>
+          </div>
+          <br>
+          <br>
+          <ol class="carousel-indicators" >
+            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+            <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+            <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+          </ol>
+
+
+
+          <br>
+
+        </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+  </div>
+  <!-- Delete user modal -->
+  <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Delete User Confirmation</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Do you want to delete the User:
+          <br>
+          <br>
+
+          <div class="row" style="float: center;">
+            <div class="col-md-4">
+              <button type="button" class="btn btn-danger" ng-click="softdeleteUser(result)" data-dismiss="modal">Soft
+                Delete</button>
+            </div>
+            <div class="col-md-4">
+              <button type="button" class="btn btn-danger" ng-click="deleteUser()" data-dismiss="modal">Hard
+                Delete</button>
+            </div>
+            <div class="col-md-4">
+              <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">No </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- <ui-select multiple ng-model="multipleDemo.selectedPeopleSimple" theme="bootstrap" ng-disabled="disabled"
+      close-on-select="false" style="width: 800px;" title="Choose a person">
+      <ui-select-match placeholder="Select person...">{{$item.name}}</ui-select-match>
+      <ui-select-choices repeat="person.email as person in people | propsFilter: {name: $select.search, age: $select.search}">
+        <div ng-bind-html="person.name | highlight: $select.search"></div>
+        <small>
+          email: {{person.email}}
+          age: <span ng-bind-html="''+person.age | highlight: $select.search"></span>
+        </small>
+      </ui-select-choices>
+    </ui-select>
+    <ui-select multiple ng-model="multipleDemo.colors" theme="bootstrap" ng-disabled="disabled" close-on-select="false" style="width: 300px;" title="Choose a color">
+      <ui-select-match placeholder="Select colors...">{{$item}}</ui-select-match>
+      <ui-select-choices repeat="color in availableColors | filter:$select.search">
+        {{color}}
+      </ui-select-choices>
+    </ui-select> -->
+
+  <!-- </div>
+  <button class="btn" type="button" ng-click="openDialog()">Close</button>
+  <br>
+  <div >
+  <rzslider rz-slider-model="minSlider.value"></rzslider> -->
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>

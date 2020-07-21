@@ -1,0 +1,132 @@
+.header
+{
+    width: 100%;
+    
+    height: 8%;
+    background-image:linear-gradient(#024949,white);
+    background: #024949;
+    text-align: center;
+    font-size: x-large;
+    padding-top: 1%;
+    font-weight: 500;
+    border-bottom: 1px solid lightseagreen;
+    color: white;
+}
+.close
+{
+    color: white;
+}
+.modal-title
+{
+    text-align: center;
+    background: #024949;
+    color: white;
+    font-size: xx-large;
+}
+.left{
+    float: left;
+    margin-left: 15px;
+    }
+
+    .container
+{
+    margin-top: 2%;
+    width: 60%;
+position: relative;
+    
+}
+
+ 
+
+.sub-heading
+{
+    background:#024949;
+color: white;
+    height: 8%;
+    text-align: center;
+    padding-top: 5px;
+    font-weight: 500;
+
+}
+.form-row
+{
+    margin-bottom: 1%;
+}
+.canvas
+{
+    height: 10px !important;
+    width: 10px !important;
+
+}
+
+.education
+{
+    align-items: center;
+    text-align: center;
+    font-weight: bold;
+    background: #024949;
+    color: white;
+}
+.educationtoggle
+{
+    align-items: center;
+    text-align: center;
+
+    font-size: x-large;
+   
+}
+.modal-header
+{
+    text-align: center;
+    background: #024949;
+    color: white;
+}
+.right
+{
+    float: right;
+}
+.home {
+    display:block;
+    height:200px;
+    overflow:auto;
+word-break: break-all;
+}
+
+.carousel-control.left, .carousel-control.right {
+    background-image:none !important;
+    filter:none !important;
+ }
+.homehead  {
+    display:table;
+    width:100%;
+    table-layout:fixed;
+}
+.homefoot
+{
+    display:table;
+    width:100%;
+    table-layout:fixed;
+}
+.footer{
+    position: fixed;
+    overflow: auto;
+    left: 0;
+    text-align: center;
+    bottom: 0;
+    width: 100%;
+    padding-left: 30px;
+    background-image:linear-gradient(white,#024949);
+   
+    border-top: lightseagreen 0.5px solid;
+    margin-bottom: 0;
+    height: 60px;
+}
+img
+{
+    float: right;
+    padding-right: 5%;
+}
+.largeWidth
+{
+    background: red;
+}

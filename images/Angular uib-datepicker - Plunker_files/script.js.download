@@ -1,0 +1,13 @@
+// Code goes here
+
+var app = angular.module('demoApp',['ui.bootstrap']);
+
+app.controller('demoCtrl',function($scope){
+  $scope.init = function(){
+    $scope.date = null;
+    $scope.datepickerOptions = {
+      minDate: new Date('2010-05-01'),
+      initDate: new Date()
+    };
+  };
+});
